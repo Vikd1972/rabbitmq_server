@@ -1,19 +1,9 @@
-import express from 'express';
-import fetch from 'node-fetch';
-
 import config from './config';
+import express from 'express';
 
-import job from './utils/cron-ping';
-import decodeString from './utils/decodeString';
-import parsingString from './utils/parsingString';
+import sendMessge from './publisher/send';
 
 const app = express();
-
-fetch('http://www.tgnvoda.ru/avarii.php')
-  .then((res: any) => res.buffer())
-  .then((res: string) => decodeString(res))
-  .then((res: string) => parsingString(res))
-  .catch((err: any) => console.error('\n--------------------\nБля!\n\n', err));
 
 void (async () => {
   try {
@@ -21,6 +11,8 @@ void (async () => {
       // eslint-disable-next-line no-console
       console.log('Server start on port', config.port);
     });
+
+    sendMessge();
   } catch (error) {
     console.error(error);
   }

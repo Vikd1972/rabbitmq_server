@@ -12,7 +12,7 @@ const app = express();
       console.log('Server start on port', config.port);
     });
 
-    sendMessage(['kern.error', 'A critical kernel NEW error']);
+    sendMessage();
   } catch (error) {
     console.error(error);
   }

@@ -1,7 +1,12 @@
 /* eslint-disable no-console */
 import amqp from 'amqplib/callback_api';
 
-const sendMessage = (args: string[]) => {
+const fibonacci = (n: number): number => {
+  if (n === 0 || n === 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+};
+
+const sendMessage = () => {
   amqp.connect('amqp://localhost', (error0, connection) => {
     if (error0) {
       throw error0;
@@ -10,22 +15,29 @@ const sendMessage = (args: string[]) => {
       if (error1) {
         throw error1;
       }
-      const exchange = 'topic_logs';
-      // const args = process.argv.slice(2);
-      const key = (args.length > 0) ? args[0] : 'anonymous.info';
-      const msg = args.slice(1).join(' ') || 'Hello World!';
+      const queue = 'rpc_queue';
 
-      channel.assertExchange(exchange, 'topic', {
+      channel.assertQueue(queue, {
         durable: false,
       });
-      channel.publish(exchange, key, Buffer.from(msg));
-      console.log(" [x] Sent %s:'%s'", key, msg);
-    });
+      channel.prefetch(1);
+      console.log(' [x] Awaiting RPC requests');
+      channel.consume(queue, (msg) => {
+        const n = parseInt(msg.content.toString(), 10);
 
-    setTimeout(() => {
-      connection.close();
-      process.exit(0);
-    }, 500);
+        console.log(' [.] fib(%d)', n);
+
+        const r = fibonacci(n);
+
+        channel.sendToQueue(msg.properties.replyTo,
+          Buffer.from(r.toString()),
+          {
+            correlationId: msg.properties.correlationId,
+          });
+
+        channel.ack(msg);
+      });
+    });
   });
 };
 

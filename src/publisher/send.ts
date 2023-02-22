@@ -1,5 +1,6 @@
-/* eslint-disable no-console */
 import amqp from 'amqplib/callback_api';
+
+import showMessage from '../utils/showMessage';
 
 const fibonacci = (n: number): number => {
   if (n === 0 || n === 1) return n;
@@ -21,11 +22,11 @@ const sendMessage = () => {
         durable: false,
       });
       channel.prefetch(1);
-      console.log(' [x] Awaiting RPC requests');
+      showMessage('INFO', 'publisher', 'Awaiting RPC requests');
       channel.consume(queue, (msg) => {
         const n = parseInt(msg.content.toString(), 10);
 
-        console.log(' [.] fib(%d)', n);
+        showMessage('INFO', 'publisher', `fib(${n})`);
 
         const r = fibonacci(n);
 

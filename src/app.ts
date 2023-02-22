@@ -1,17 +1,16 @@
-// import express from 'express';
-// import cors from 'cors';
-// import path from 'path';
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
 
-// import './type';
+import controlRoute from './routes/controlRoute';
 
-// const app = express();
-// const router = express.Router();
+const app = express();
 
-// app.use(express.json({ limit: '50MB' }));
-// app.use(express.json());
-// app.use(cors());
-// app.use(express.static(path.join(__dirname, '../static')));
+app.use(express.json({ limit: '50MB' }));
+app.use(express.json());
+app.use(cors());
+app.use(express.static(path.join(__dirname, '../static')));
 
-// app.use('/', router);
+app.use('/api', controlRoute);
 
-// export default app;
+export default app;

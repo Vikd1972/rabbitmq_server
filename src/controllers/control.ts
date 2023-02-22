@@ -2,7 +2,7 @@
 import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import sendMessage from '../publisher/send';
+import sendMessage from '../publisher/manage';
 
 type ParamsType = Record<string, never>;
 
@@ -14,9 +14,9 @@ type ControllerType = RequestHandler<ParamsType, ResponseType, RequestType, unkn
 
 const control: ControllerType = async (req, res, next) => {
   try {
-    // const { data } = req.body;
+    const { data } = req.body;
 
-    sendMessage();
+    sendMessage(data);
 
     return res.sendStatus(StatusCodes.OK);
   } catch (err) {

@@ -1,30 +1,32 @@
 /* eslint-disable no-console */
 import amqp from 'amqplib/callback_api';
 
-const sendMessge = () => {
-  amqp.connect('amqp://localhost', function (error0, connection) {
-    if (error0) {
-      throw error0;
+// const sendMessage = () => {
+amqp.connect('amqp://localhost', (error0, connection) => {
+  if (error0) {
+    throw error0;
+  }
+  connection.createChannel((error1, channel) => {
+    if (error1) {
+      throw error1;
     }
-    connection.createChannel(function (error1, channel) {
-      if (error1) {
-        throw error1;
-      }
-      var exchange = 'logs';
-      var msg = process.argv.slice(2).join(' ') || 'Hello World!';
+    const exchange = 'direct_logs';
+    const args = process.argv.slice(2);
+    const msg = args.slice(1).join(' ') || 'Hello World!';
+    const severity = (args.length > 0) ? args[0] : 'info';
 
-      channel.assertExchange(exchange, 'fanout', {
-        durable: false
-      });
-      channel.publish(exchange, '', Buffer.from(msg));
-      console.log(" [x] Sent %s", msg);
+    channel.assertExchange(exchange, 'direct', {
+      durable: false,
     });
-
-    setTimeout(function () {
-      connection.close();
-      process.exit(0);
-    }, 500);
+    channel.publish(exchange, severity, Buffer.from(msg));
+    console.log(" [x] Sent %s: '%s'", severity, msg);
   });
-};
 
-export default sendMessge;
+  setTimeout(() => {
+    connection.close();
+    process.exit(0);
+  }, 500);
+});
+// };
+
+// export default sendMessage;

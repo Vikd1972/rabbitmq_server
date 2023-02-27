@@ -1,6 +1,5 @@
 import amqp from 'amqplib/callback_api';
 
-import sendToQueue from './sendToQueue';
 import showMessage from '../utils/showMessage';
 
 const sendMessage = (args: string[]) => {
@@ -13,18 +12,14 @@ const sendMessage = (args: string[]) => {
         throw error1;
       }
       const exchange = 'direct_logs';
-      const msg = args.slice(1).join(' ') || 'Hello World!';
-      const severity = (args.length > 0) ? args[0] : 'manage';
+      const msg = args.join(' ') || 'Hello World!';
+      const severity = 'manage';
 
-      if (severity !== 'manage') {
-        sendToQueue(args);
-      } else {
-        channel.assertExchange(exchange, 'direct', {
-          durable: false,
-        });
-        channel.publish(exchange, severity, Buffer.from(msg));
-        showMessage('INFO', 'publisher.send', `Sent ${severity}: ${msg}`);
-      }
+      channel.assertExchange(exchange, 'direct', {
+        durable: false,
+      });
+      channel.publish(exchange, severity, Buffer.from(msg));
+      showMessage('INFO', 'publisher.send', `Sent: ${msg}`);
     });
 
     setTimeout(() => {

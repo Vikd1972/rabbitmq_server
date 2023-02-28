@@ -3,20 +3,22 @@ import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import sendMessage from '../publisher/manage';
+import service from '../db/services/links';
 
 type ParamsType = Record<string, never>;
 
 type RequestType = {
-  data: string[];
+  domen: string;
 };
 
 type ControllerType = RequestHandler<ParamsType, ResponseType, RequestType, unknown>;
 
-const control: ControllerType = async (req, res, next) => {
+const getLinkId: ControllerType = async (req, res, next) => {
   try {
-    const { data } = req.body;
+    const { domen } = req.body;
+    const linkId = await service.addLink(domen);
 
-    sendMessage(data);
+    sendMessage(linkId);
 
     return res.sendStatus(StatusCodes.OK);
   } catch (err) {
@@ -24,4 +26,4 @@ const control: ControllerType = async (req, res, next) => {
   }
 };
 
-export default control;
+export default getLinkId;

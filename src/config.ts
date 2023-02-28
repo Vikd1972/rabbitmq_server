@@ -15,11 +15,12 @@ const config = {
   pathToImage: joinedEnv.PATH_TO_IMAGE,
   pathToCover: joinedEnv.PATH_TO_COVER,
   db: {
-    port: +joinedEnv.DB_PORT,
-    host: joinedEnv.HOST,
-    user: joinedEnv.DB_USERNAME,
-    base: joinedEnv.DB_BASENAME,
-    pass: joinedEnv.DB_PASS,
+    port: +joinedEnv.POSTGRES_DB_PORT,
+    host: joinedEnv.POSTGRES_DB_HOST,
+    user: joinedEnv.POSTGRES_DB_USER,
+    base: joinedEnv.POSTGRES_DB_NAME,
+    password: joinedEnv.POSTGRES_DB_PASSWORD,
+    logging: Boolean(joinedEnv.POSTGRES_DB_LOGGING),
   },
   token: {
     salt: joinedEnv.PASSWORD_SALT,

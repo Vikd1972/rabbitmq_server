@@ -2,7 +2,7 @@ import amqp from 'amqplib/callback_api';
 
 import showMessage from '../utils/showMessage';
 
-const sendMessage = (args: string[]) => {
+const sendMessage = (linkId: number) => {
   amqp.connect('amqp://localhost', (error0, connection) => {
     if (error0) {
       throw error0;
@@ -12,14 +12,13 @@ const sendMessage = (args: string[]) => {
         throw error1;
       }
       const exchange = 'direct_logs';
-      const msg = args.join(' ') || 'Hello World!';
       const severity = 'manage';
 
       channel.assertExchange(exchange, 'direct', {
         durable: false,
       });
-      channel.publish(exchange, severity, Buffer.from(msg));
-      showMessage('INFO', 'publisher.send', `Sent: ${msg}`);
+      channel.publish(exchange, severity, Buffer.from(linkId.toString()));
+      showMessage('INFO', 'publisher.send', `Sent: ${linkId.toString()}`);
     });
 
     setTimeout(() => {

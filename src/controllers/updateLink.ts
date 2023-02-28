@@ -19,8 +19,6 @@ const updateLink: ControllerType = async (req, res, next) => {
 
     const link = await service.updateLink(newItemLink);
 
-    console.log(link);
-
     return res.sendStatus(StatusCodes.OK);
   } catch (err) {
     next(err);

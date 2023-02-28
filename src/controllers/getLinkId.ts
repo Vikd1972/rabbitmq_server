@@ -9,16 +9,22 @@ type ParamsType = Record<string, never>;
 
 type RequestType = {
   domen: string;
+  linkId: string;
+  numberOfStreams: string;
 };
 
 type ControllerType = RequestHandler<ParamsType, ResponseType, RequestType, unknown>;
 
 const getLinkId: ControllerType = async (req, res, next) => {
   try {
-    const { domen } = req.body;
-    const linkId = await service.addLink(domen);
+    const { domen, numberOfStreams } = req.body;
+    let linkId = Number(req.body.linkId);
 
-    sendMessage(linkId);
+    if (domen) {
+      linkId = await service.addLink(domen);
+    }
+
+    sendMessage({ linkId, numberOfStreams: Number(numberOfStreams) });
 
     return res.sendStatus(StatusCodes.OK);
   } catch (err) {

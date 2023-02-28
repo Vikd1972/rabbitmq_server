@@ -2,7 +2,12 @@ import amqp from 'amqplib/callback_api';
 
 import showMessage from '../utils/showMessage';
 
-const sendMessage = (linkId: number) => {
+type OptionsType = {
+  linkId: number;
+  numberOfStreams?: number;
+};
+
+const sendMessage = (options: OptionsType) => {
   amqp.connect('amqp://localhost', (error0, connection) => {
     if (error0) {
       throw error0;
@@ -17,8 +22,9 @@ const sendMessage = (linkId: number) => {
       channel.assertExchange(exchange, 'direct', {
         durable: false,
       });
-      channel.publish(exchange, severity, Buffer.from(linkId.toString()));
-      showMessage('INFO', 'publisher.send', `Sent: ${linkId.toString()}`);
+
+      channel.publish(exchange, severity, Buffer.from(`${options.linkId.toString()} ${options.numberOfStreams.toString()}`));
+      showMessage('INFO', 'publisher.send', `Sent: ${options.linkId.toString()} ${options.numberOfStreams.toString()}`);
     });
 
     setTimeout(() => {

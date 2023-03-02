@@ -1,13 +1,13 @@
 import express from 'express';
 
-import getLinkId from '../controllers/getLinkId';
+import getNewLinkId from '../controllers/getNewLinkId';
 import getLink from '../controllers/getLink';
-import updateLink from '../controllers/updateLink';
+import addOrUpdateLink from '../controllers/addOrUpdateLink';
 
 const getDataRoute = express.Router();
 
-getDataRoute.post('/', getLinkId);
+getDataRoute.post('/', getNewLinkId);
 getDataRoute.get('/:linkId', getLink);
-getDataRoute.post('/link', updateLink);
+getDataRoute.post('/link', addOrUpdateLink);
 
 export default getDataRoute;

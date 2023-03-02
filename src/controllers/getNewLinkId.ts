@@ -15,13 +15,13 @@ type RequestType = {
 
 type ControllerType = RequestHandler<ParamsType, ResponseType, RequestType, unknown>;
 
-const getLinkId: ControllerType = async (req, res, next) => {
+const getNewLinkId: ControllerType = async (req, res, next) => {
   try {
     const { domen, numberOfStreams } = req.body;
     let linkId = Number(req.body.linkId);
 
     if (domen) {
-      linkId = await service.addLink(domen);
+      linkId = await service.getNewLinkId(domen);
     }
 
     sendMessage({ linkId, numberOfStreams: Number(numberOfStreams) });
@@ -32,4 +32,4 @@ const getLinkId: ControllerType = async (req, res, next) => {
   }
 };
 
-export default getLinkId;
+export default getNewLinkId;

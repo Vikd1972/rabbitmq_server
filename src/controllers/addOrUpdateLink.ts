@@ -11,18 +11,22 @@ type RequestType = {
   newItemLink: Link;
 };
 
+type ResponseType = {
+  link: Link;
+};
+
 type ControllerType = RequestHandler<ParamsType, ResponseType, RequestType, unknown>;
 
-const updateLink: ControllerType = async (req, res, next) => {
+const addOrUpdateLink: ControllerType = async (req, res, next) => {
   try {
     const { newItemLink } = req.body;
 
-    const link = await service.updateLink(newItemLink);
+    const link = await service.addOrUpdateLink(newItemLink);
 
-    return res.sendStatus(StatusCodes.OK);
+    return res.status(StatusCodes.OK).json({ link });
   } catch (err) {
     next(err);
   }
 };
 
-export default updateLink;
+export default addOrUpdateLink;

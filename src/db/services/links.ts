@@ -56,7 +56,7 @@ export const addOrUpdateLink = async (newItem: Link) => {
         ...newItem,
       });
 
-      showMessage('INFO', 'db.services.links.updateLink', `Link ${newLink.path} is added`);
+      showMessage('INFO', 'db.services.links.addOrUpdateLink', `Link ${newLink.path} is added`);
       return newLink;
     }
 
@@ -65,10 +65,10 @@ export const addOrUpdateLink = async (newItem: Link) => {
       ...newItem,
     });
 
-    showMessage('INFO', 'db.services.links.updateLink', `Link ${newLink.path} is updated`);
+    showMessage('INFO', 'db.services.links.addOrUpdateLink', `Link ${newLink.path} is updated`);
     return newLink;
   } catch (error) {
-    showMessage('ERROR', 'db.services.links.addLink', 'Database error');
+    showMessage('ERROR', 'db.services.links.addOrUpdateLink', 'Database error');
   }
 };
 

@@ -7,15 +7,15 @@ import service from '../db/services/links';
 
 type ParamsType = Record<string, never>;
 
-type RequestType = {
+type RequestBodyType = {
   newItemLink: Link;
 };
 
-type ResponseType = {
+type ResponseBodyType = {
   link: Link;
 };
 
-type ControllerType = RequestHandler<ParamsType, ResponseType, RequestType, unknown>;
+type ControllerType = RequestHandler<ParamsType, ResponseBodyType, RequestBodyType, unknown>;
 
 const addOrUpdateLink: ControllerType = async (req, res, next) => {
   try {

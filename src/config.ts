@@ -14,6 +14,7 @@ const config = {
   path: joinedEnv.LOCAL_PATH,
   pathToImage: joinedEnv.PATH_TO_IMAGE,
   pathToCover: joinedEnv.PATH_TO_COVER,
+  rabbitExchange: joinedEnv.RABBIT_EXCHANGE,
   db: {
     port: +joinedEnv.POSTGRES_DB_PORT,
     host: joinedEnv.POSTGRES_DB_HOST,

@@ -1,17 +1,17 @@
 import Link from '../entities/links';
 import db from '..';
-import showMessage from '../../utils/showMessage';
+import logger from '../../utils/logger';
 
-export const getNewLinkId = async (domen: string) => {
+export const getLinkId = async (domen: string) => {
   try {
-    const link = await db.Links.findOne({
+    const link = await db.links.findOne({
       where: {
         path: domen,
       },
     });
 
     if (link) {
-      showMessage('INFO', 'db.services.links.addLink', `id: ${link.id}, path: ${link.path}`);
+      logger('INFO', 'db.services.links.addLink', `id: ${link.id}, path: ${link.path}`);
       return link.id;
     }
 
@@ -19,31 +19,31 @@ export const getNewLinkId = async (domen: string) => {
     newItem.title = 'root path';
     newItem.path = domen;
 
-    const newLink = await db.Links.save(newItem);
-    showMessage('INFO', 'db.services.links.addLink', `id: ${newLink.id}, path: ${newLink.path}`);
+    const newLink = await db.links.save(newItem);
+    logger('INFO', 'db.services.links.addLink', `id: ${newLink.id}, path: ${newLink.path}`);
     return newLink.id;
   } catch (error) {
-    showMessage('ERROR', 'db.services.links.addLink', 'Database error');
+    logger('ERROR', 'db.services.links.addLink', 'Database error');
   }
 };
 
 export const getLink = async (linkId: number) => {
   try {
-    const link = await db.Links.findOne({
+    const link = await db.links.findOne({
       where: {
         id: linkId,
       },
     });
-    showMessage('INFO', 'db.services.links.getLink', `id: ${link.id}, path: ${link.path}`);
+    logger('INFO', 'db.services.links.getLink', `id: ${link.id}, path: ${link.path}`);
     return link;
   } catch (error) {
-    showMessage('ERROR', 'db.services.links.getLink', `Link with id: ${linkId} not found`);
+    logger('ERROR', 'db.services.links.getLink', `Link with id: ${linkId} not found`);
   }
 };
 
 export const addOrUpdateLink = async (newItem: Link) => {
   try {
-    const link = await db.Links.findOne({
+    const link = await db.links.findOne({
       where: {
         path: newItem.path,
       },
@@ -52,28 +52,28 @@ export const addOrUpdateLink = async (newItem: Link) => {
     let newLink = new Link();
 
     if (!link) {
-      newLink = await db.Links.save({
+      newLink = await db.links.save({
         ...newItem,
       });
 
-      showMessage('INFO', 'db.services.links.addOrUpdateLink', `Link ${newLink.path} is added`);
+      logger('INFO', 'db.services.links.addOrUpdateLink', `Link ${newLink.path} is added`);
       return newLink;
     }
 
-    newLink = await db.Links.save({
+    newLink = await db.links.save({
       ...link,
       ...newItem,
     });
 
-    showMessage('INFO', 'db.services.links.addOrUpdateLink', `Link ${newLink.path} is updated`);
+    logger('INFO', 'db.services.links.addOrUpdateLink', `Link ${newLink.path} is updated`);
     return newLink;
   } catch (error) {
-    showMessage('ERROR', 'db.services.links.addOrUpdateLink', 'Database error');
+    logger('ERROR', 'db.services.links.addOrUpdateLink', 'Database error');
   }
 };
 
 export default {
-  getNewLinkId,
+  getLinkId,
   getLink,
   addOrUpdateLink,
 };

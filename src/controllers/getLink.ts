@@ -8,13 +8,13 @@ import type Link from '../db/entities/links';
 type ParamsType = {
   linkId: string;
 };
-type ResponseType = {
+type ResponseBodyType = {
   link: Link;
 };
 
-type RequestType = Record<string, never>;
+type RequestBodyType = Record<string, never>;
 
-type ControllerType = RequestHandler<ParamsType, ResponseType, RequestType, unknown>;
+type ControllerType = RequestHandler<ParamsType, ResponseBodyType, RequestBodyType, unknown>;
 
 const getLink: ControllerType = async (req, res, next) => {
   try {

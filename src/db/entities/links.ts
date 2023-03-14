@@ -2,7 +2,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import Domain from './domains';
 
 @Entity()
 export class Link {
@@ -12,7 +16,7 @@ export class Link {
   @Column({ nullable: true, type: 'varchar' })
   title: string;
 
-  @Column({ nullable: true, type: 'varchar' })
+  @Column({ nullable: false, type: 'varchar' })
   path: string;
 
   @Column({ nullable: true, type: 'real' })
@@ -21,11 +25,12 @@ export class Link {
   @Column({ nullable: true, type: 'integer' })
   numberOfLinks: number;
 
-  @Column({ nullable: true, type: 'integer' })
-  idRootPage: number;
-
-  @Column({ nullable: true, type: 'boolean', default: 'false' })
+  @Column({ nullable: false, type: 'boolean', default: 'false' })
   isChecked: boolean;
+
+  @ManyToOne(() => Domain, (domain) => domain.id, { cascade: true })
+  @JoinColumn()
+  idDomain: Domain;
 }
 
 export default Link;

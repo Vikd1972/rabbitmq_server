@@ -1,8 +1,8 @@
 import dataSource from './dataSource';
 import Link from './entities/links';
-
-const Links = dataSource.getRepository(Link);
+import Domain from './entities/domains';
 
 export default {
-  Links,
+  links: dataSource.getRepository(Link),
+  domains: dataSource.getRepository(Domain),
 };

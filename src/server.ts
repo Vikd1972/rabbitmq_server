@@ -1,15 +1,18 @@
 import config from './config';
 import app from './app';
 import connectToDb from './db/connectToDb';
-import showMessage from './utils/showMessage';
+import publisher from './publisher/publisher';
+import logger from './utils/logger';
 
 (async () => {
   try {
+    await connectToDb();
+    await publisher.init();
     app.listen(config.port, () => {
-      connectToDb();
-      showMessage('SUCCESS', 'server', `Server start on port: ${config.port}`);
+      logger('SUCCESS', 'server', `Server start on port: ${config.port}`);
     });
   } catch (error) {
-    showMessage('ERROR', 'server', error.message);
+    logger('ERROR', 'server', error.message);
+    process.exit(1);
   }
 })();

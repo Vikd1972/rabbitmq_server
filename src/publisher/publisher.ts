@@ -13,12 +13,16 @@ const Publisher = class {
   channel: Promise<amqp.Channel>;
 
   init = async () => {
-    const connection = await amqp.connect('amqp://localhost');
+    const connection = await amqp.connect(config.rabbitHost);
+
     this.channel = connection.createChannel();
+
     const result = (await this.channel).assertExchange(config.rabbitExchange, 'direct', {
       durable: false,
     });
+
     const pointExchange = Object.values(await result);
+
     logger('SUCCESS', 'publisher.init', `Point of exchange "${pointExchange}" created`);
     return pointExchange;
   };

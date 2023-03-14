@@ -29,4 +29,20 @@ export const getLinkId = async (domain: string) => {
   }
 };
 
-export default { getLinkId };
+export const getLink = async (linkId: number) => {
+  try {
+    const domain = await db.domains.findOne({
+      where: {
+        id: linkId,
+      },
+    });
+    logger('INFO', 'db.services.domains.getLink', `id: ${domain.id}, domain: ${domain.domain}`);
+    return domain;
+  } catch (error) {
+    logger('ERROR', 'db.services.domains.getLink', `Domain with id: ${linkId} not found`);
+  }
+};
+
+export default {
+  getLinkId, getLink,
+};

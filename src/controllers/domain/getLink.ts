@@ -1,15 +1,14 @@
-/* eslint-disable no-console */
 import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import service from '../db/services/links';
-import type Link from '../db/entities/links';
+import service from '../../db/services';
+import type { Domain } from '../../db/entities/domains';
 
 type ParamsType = {
   linkId: string;
 };
 type ResponseBodyType = {
-  link: Link;
+  domain: Domain;
 };
 
 type RequestBodyType = Record<string, never>;
@@ -19,9 +18,8 @@ type ControllerType = RequestHandler<ParamsType, ResponseBodyType, RequestBodyTy
 const getLink: ControllerType = async (req, res, next) => {
   try {
     const { linkId } = req.params;
-    const link = await service.getLink(+linkId);
-
-    return res.status(StatusCodes.OK).json({ link });
+    const domain = await service.domains.getLink(+linkId);
+    return res.status(StatusCodes.OK).json({ domain });
   } catch (err) {
     next(err);
   }

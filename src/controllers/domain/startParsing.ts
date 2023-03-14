@@ -3,8 +3,8 @@ import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 // import sendMessage from '../publisher/manage';
-import publisher from '../publisher/publisher';
-import service from '../db/services';
+import publisher from '../../publisher/publisher';
+import service from '../../db/services';
 
 type ParamsType = Record<string, never>;
 

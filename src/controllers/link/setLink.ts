@@ -2,8 +2,8 @@
 import type { RequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import type Link from '../db/entities/links';
-import service from '../db/services/links';
+import type Link from '../../db/entities/links';
+import service from '../../db/services';
 
 type ParamsType = Record<string, never>;
 
@@ -17,11 +17,11 @@ type ResponseBodyType = {
 
 type ControllerType = RequestHandler<ParamsType, ResponseBodyType, RequestBodyType, unknown>;
 
-const addOrUpdateLink: ControllerType = async (req, res, next) => {
+const setLink: ControllerType = async (req, res, next) => {
   try {
     const { newItemLink } = req.body;
 
-    const link = await service.addOrUpdateLink(newItemLink);
+    const link = await service.links.setLink(newItemLink);
 
     return res.status(StatusCodes.OK).json({ link });
   } catch (err) {
@@ -29,4 +29,4 @@ const addOrUpdateLink: ControllerType = async (req, res, next) => {
   }
 };
 
-export default addOrUpdateLink;
+export default setLink;

@@ -5,7 +5,7 @@ import service from '../../db/services';
 import type { Domain } from '../../db/entities/domains';
 
 type ParamsType = {
-  linkId: string;
+  id: string;
 };
 type ResponseBodyType = {
   domain: Domain;
@@ -15,14 +15,14 @@ type RequestBodyType = Record<string, never>;
 
 type ControllerType = RequestHandler<ParamsType, ResponseBodyType, RequestBodyType, unknown>;
 
-const getLink: ControllerType = async (req, res, next) => {
+const getDomain: ControllerType = async (req, res, next) => {
   try {
-    const { linkId } = req.params;
-    const domain = await service.domains.getLink(+linkId);
+    const { id } = req.params;
+    const domain = await service.domains.getDomain(+id);
     return res.status(StatusCodes.OK).json({ domain });
   } catch (err) {
     next(err);
   }
 };
 
-export default getLink;
+export default getDomain;

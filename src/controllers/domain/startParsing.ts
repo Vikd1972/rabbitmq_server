@@ -9,18 +9,19 @@ import service from '../../db/services';
 type ParamsType = Record<string, never>;
 
 type RequestBodyType = {
+  idProcess?: number;
   severity: string;
-  domain: string;
-  numberOfStreams?: string;
+  domain?: string;
+  numberOfStreams: string;
 };
 
 type ControllerType = RequestHandler<ParamsType, ResponseType, RequestBodyType, unknown>;
 
 const startParsing: ControllerType = async (req, res, next) => {
   try {
-    const { domain, severity, numberOfStreams } = req.body;
+    const { idProcess, domain, severity, numberOfStreams } = req.body;
 
-    const linkId = await service.domains.getLinkId(domain);
+    const linkId = idProcess || await service.domains.getLinkId(domain);
 
     publisher.sendToChannel({ severity, linkId, numberOfStreams: Number(numberOfStreams) });
 

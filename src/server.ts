@@ -1,7 +1,7 @@
 import config from './config';
 import app from './app';
 import connectToDb from './db/connectToDb';
-import publisher from './publisher/publisher';
+import publisher from './publisher/Publisher';
 import logger from './utils/logger';
 
 (async () => {

@@ -7,10 +7,9 @@ import updateDomain from '../controllers/domain/updateDomain';
 
 const getDataRoute = express.Router();
 
-getDataRoute.post('/', startParsing); // start parsing by domain id
-getDataRoute.get('/domain/:id', getDomain); // get domen data by id
-getDataRoute.patch('/domain/:id', updateDomain); // update domen data by id
-getDataRoute.post('/link', setLink); // set link
-// getDataRoute.delete('/:linkId', stopParsing); // stop parsing by domain id
+getDataRoute.post('/', startParsing);
+getDataRoute.get('/domain/:id', getDomain);
+getDataRoute.patch('/domain/:id', updateDomain);
+getDataRoute.post('/link', setLink);
 
 export default getDataRoute;

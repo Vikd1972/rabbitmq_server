@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable global-require */
-/* eslint-disable import/no-dynamic-require */
-import type { Express, Router } from 'express-serve-static-core';
+import type { Express, Router } from 'express';
 import requireDirectory from 'require-directory';
 
 const routes = requireDirectory(module, {
